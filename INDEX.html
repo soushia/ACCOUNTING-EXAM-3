@@ -1,1 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACCT 1B — Exam 3 Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0d10;
+  --surface: #15151a;
+  --surface2: #1c1c24;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text: #f0ede8;
+  --muted: #7a7885;
+  --accent: #c8f060;
+  --accent2: #6fa8f5;
+  --accent3: #f5a86f;
+  --accent4: #b07ef5;
+  --red: #f56f6f;
+  --green: #6fde9e;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --mono: 'DM Mono', monospace;
+  --sans: 'Syne', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.6;
+  min-height:100vh;
+}
 
+/* noise overlay */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+  opacity:0.4;
+}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(13,13,16,0.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;
+}
+.nav-brand{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:18px;
+  color:var(--accent);
+  letter-spacing:-0.02em;
+}
+.nav-links{display:flex;gap:6px}
+.nav-link{
+  padding:6px 14px;
+  border-radius:100px;
+  font-size:13px;
+  color:var(--muted);
+  cursor:pointer;
+  border:none;background:none;
+  transition:all 0.2s;
+  font-family:var(--sans);
+  font-weight:500;
+}
+.nav-link:hover{color:var(--text);background:rgba(255,255,255,0.06)}
+.nav-link.active{color:var(--bg);background:var(--accent)}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  padding:5rem 2rem 4rem;
+  max-width:900px;
+  margin:0 auto;
+  z-index:1;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:4px 14px;
+  background:rgba(200,240,96,0.1);
+  border:1px solid rgba(200,240,96,0.25);
+  border-radius:100px;
+  font-size:12px;
+  color:var(--accent);
+  font-family:var(--mono);
+  margin-bottom:1.5rem;
+  letter-spacing:0.05em;
+}
+.hero h1{
+  font-family:var(--serif);
+  font-size:clamp(2.4rem,6vw,4rem);
+  font-weight:400;
+  line-height:1.1;
+  letter-spacing:-0.02em;
+  margin-bottom:1rem;
+}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero-sub{
+  font-size:15px;
+  color:var(--muted);
+  max-width:500px;
+  margin-bottom:2rem;
+}
+.hero-chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{
+  padding:5px 14px;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:100px;
+  font-size:12px;
+  color:var(--muted);
+  font-family:var(--mono);
+}
+
+/* ── SECTIONS ── */
+.page-section{display:none;animation:fadeIn 0.3s ease}
+.page-section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.section-wrap{max-width:900px;margin:0 auto;padding:2rem 2rem 5rem;position:relative;z-index:1}
+
+/* ── CARDS ── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1.5rem;
+  margin-bottom:1rem;
+  transition:border-color 0.2s;
+}
+.card:hover{border-color:var(--border2)}
+
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:2rem}
+
+.card-ch{
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--accent4);
+  letter-spacing:0.08em;
+  margin-bottom:8px;
+  text-transform:uppercase;
+}
+.card-ch.teal{color:#6fde9e}
+.card-ch.coral{color:var(--accent3)}
+.card-ch.blue{color:var(--accent2)}
+
+.card h3{
+  font-size:14px;
+  font-weight:600;
+  margin-bottom:8px;
+  color:var(--text);
+}
+.card p{font-size:13px;color:var(--muted);line-height:1.7}
+.card em{color:var(--text);font-style:normal}
+
+/* ── FORMULA CARDS ── */
+.formula-block{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.25rem;
+  margin-bottom:1rem;
+}
+.formula-block h3{
+  font-size:13px;
+  font-weight:600;
+  color:var(--accent);
+  margin-bottom:1rem;
+  font-family:var(--mono);
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+}
+.formula{
+  background:rgba(0,0,0,0.3);
+  border-left:3px solid var(--accent);
+  padding:10px 14px;
+  margin:6px 0;
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--text);
+  border-radius:0 8px 8px 0;
+  line-height:1.5;
+}
+.formula span{color:var(--accent);font-weight:500}
+.formula .fav{color:var(--green)}
+.formula .unfav{color:var(--red)}
+
+/* ── QUIZ ── */
+.score-row{
+  display:flex;align-items:center;gap:16px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1rem 1.25rem;
+  margin-bottom:1.5rem;
+}
+.score-big{font-size:24px;font-weight:700;color:var(--accent);font-family:var(--mono)}
+.score-label{font-size:12px;color:var(--muted)}
+.prog-track{flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width 0.3s}
+.prog-pct{font-size:13px;color:var(--muted);font-family:var(--mono);min-width:36px;text-align:right}
+
+.q-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1.5rem;
+  margin-bottom:1rem;
+  transition:border-color 0.2s;
+}
+.q-num{
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--muted);
+  margin-bottom:8px;
+  letter-spacing:0.05em;
+}
+.q-text{
+  font-size:15px;
+  color:var(--text);
+  margin-bottom:1.25rem;
+  line-height:1.6;
+}
+.q-text strong{color:var(--accent3)}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{
+  width:100%;text-align:left;
+  padding:10px 16px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:var(--muted);
+  font-size:13px;
+  cursor:pointer;
+  transition:all 0.15s;
+  font-family:var(--sans);
+}
+.opt:hover:not(:disabled){background:rgba(255,255,255,0.07);color:var(--text);border-color:var(--border2)}
+.opt.correct{background:rgba(111,222,158,0.12);border-color:rgba(111,222,158,0.4);color:var(--green)}
+.opt.wrong{background:rgba(245,111,111,0.1);border-color:rgba(245,111,111,0.3);color:var(--red)}
+.explanation{
+  margin-top:12px;
+  padding:12px 16px;
+  background:rgba(200,240,96,0.06);
+  border:1px solid rgba(200,240,96,0.15);
+  border-radius:10px;
+  font-size:13px;
+  color:var(--muted);
+  display:none;
+  line-height:1.6;
+}
+.explanation em{color:var(--accent);font-style:normal}
+
+/* ── TRAPS ── */
+.trap-card{
+  background:var(--surface);
+  border:1px solid rgba(245,111,111,0.2);
+  border-left:3px solid var(--red);
+  border-radius:0 12px 12px 0;
+  padding:1.25rem;
+  margin-bottom:10px;
+}
+.trap-card h3{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px}
+.trap-card p{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* ── ANSWERS SECTION ── */
+.qa-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:8px;
+}
+.qa-header{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:1rem 1.25rem;
+  cursor:pointer;
+  user-select:none;
+}
+.qa-num{
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--accent);
+  min-width:28px;
+  padding-top:2px;
+}
+.qa-q{font-size:14px;color:var(--text);flex:1;line-height:1.5}
+.qa-arrow{color:var(--muted);font-size:12px;padding-top:3px;transition:transform 0.2s}
+.qa-answer{
+  display:none;
+  padding:0 1.25rem 1rem 3.5rem;
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.6;
+  border-top:1px solid var(--border);
+  padding-top:12px;
+}
+.qa-answer .ans{
+  display:inline-block;
+  background:rgba(200,240,96,0.12);
+  color:var(--accent);
+  padding:3px 10px;
+  border-radius:6px;
+  font-family:var(--mono);
+  font-size:12px;
+  margin-bottom:8px;
+  font-weight:500;
+}
+.qa-block.open .qa-answer{display:block}
+.qa-block.open .qa-arrow{transform:rotate(90deg)}
+
+/* ── SECTION HEADINGS ── */
+.section-header{margin-bottom:2rem}
+.section-header h2{
+  font-family:var(--serif);
+  font-size:2rem;
+  font-weight:400;
+  font-style:italic;
+  letter-spacing:-0.02em;
+  margin-bottom:6px;
+}
+.section-header p{font-size:14px;color:var(--muted)}
+
+/* ── SCROLL PROGRESS ── */
+.scroll-prog{
+  position:fixed;top:0;left:0;
+  height:2px;background:var(--accent);
+  width:0%;z-index:200;
+  transition:width 0.1s linear;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  nav{padding:0 1rem}
+  .nav-links .nav-link:not(.active){display:none}
+  .hero{padding:3rem 1rem 2rem}
+  .section-wrap{padding:1.5rem 1rem 4rem}
+  .card-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-prog" id="scrollProg"></div>
+
+<nav>
+  <div class="nav-brand">ACCT 1B · Exam 3</div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="showPage('home')">Home</button>
+    <button class="nav-link" onclick="showPage('concepts')">Concepts</button>
+    <button class="nav-link" onclick="showPage('formulas')">Formulas</button>
+    <button class="nav-link" onclick="showPage('quiz')">Quiz</button>
+    <button class="nav-link" onclick="showPage('answers')">All answers</button>
+    <button class="nav-link" onclick="showPage('traps')">Traps</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page-section active">
+  <div class="hero">
+    <div class="hero-tag">Spring 2026 · Practice Test Exam #3</div>
+    <h1>Master your<br><em>managerial accounting</em><br>exam.</h1>
+    <p class="hero-sub">Complete study guide for Chapters 20–22. Budgeting, standard costs & variances, and responsibility accounting.</p>
+    <div class="hero-chips">
+      <span class="chip">Ch.20 — Budgeting</span>
+      <span class="chip">Ch.21 — Standard costs</span>
+      <span class="chip">Ch.22 — Resp. accounting</span>
+      <span class="chip">50 questions covered</span>
+    </div>
+  </div>
+  <div class="section-wrap" style="padding-top:0">
+    <div class="card-grid">
+      <div class="card" style="cursor:pointer;border-color:rgba(200,240,96,0.2)" onclick="showPage('concepts')">
+        <div class="card-ch">Start here</div>
+        <h3>Key concepts →</h3>
+        <p>10 core ideas across all three chapters. Read before anything else.</p>
+      </div>
+      <div class="card" style="cursor:pointer" onclick="showPage('formulas')">
+        <div class="card-ch teal">Reference</div>
+        <h3>Formula sheet →</h3>
+        <p>Every formula you need for calculations, organized by chapter.</p>
+      </div>
+      <div class="card" style="cursor:pointer" onclick="showPage('quiz')">
+        <div class="card-ch coral">Test yourself</div>
+        <h3>Practice quiz →</h3>
+        <p>10 exam-style questions with instant feedback and explanations.</p>
+      </div>
+      <div class="card" style="cursor:pointer" onclick="showPage('answers')">
+        <div class="card-ch blue">All 50 questions</div>
+        <h3>Answer key →</h3>
+        <p>Every practice test question with the correct answer and worked math.</p>
+      </div>
+      <div class="card" style="cursor:pointer;grid-column:span 1" onclick="showPage('traps')">
+        <div class="card-ch" style="color:var(--red)">Watch out</div>
+        <h3>Common traps →</h3>
+        <p>7 specific ways this exam tries to trick you. Know them cold.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONCEPTS -->
+<div id="page-concepts" class="page-section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <h2>Key concepts</h2>
+      <p>The 10 most testable ideas across Chapters 20–22</p>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-ch">Ch. 20 — Budgeting</div>
+        <h3>Master budget order</h3>
+        <p>Sales → Production → DM purchases → DL → Overhead → SG&A → Capital expenditures → Cash budget → Budgeted income statement → Budgeted balance sheet. <em>Sales always comes first.</em></p>
+      </div>
+      <div class="card">
+        <div class="card-ch">Ch. 20</div>
+        <h3>Production budget formula</h3>
+        <p>Budgeted sales + Desired ending inventory − Beginning inventory = Units to produce. <em>Ending inventory uses next month's sales.</em></p>
+      </div>
+      <div class="card">
+        <div class="card-ch">Ch. 20</div>
+        <h3>Cash budget rules</h3>
+        <p>Depreciation is <em>never</em> in the cash budget (it's non-cash). Cash = Beginning + Receipts − Disbursements ± Borrowing/Repayments.</p>
+      </div>
+      <div class="card">
+        <div class="card-ch">Ch. 20</div>
+        <h3>Bottom-up budgeting</h3>
+        <p>Most useful budgets come from a <em>bottom-up participatory process</em>. Employees provide input. Top-down is less effective and less accurate.</p>
+      </div>
+      <div class="card">
+        <div class="card-ch teal">Ch. 21 — Variances</div>
+        <h3>Price vs. quantity variance</h3>
+        <p><em>Price variance</em> = did we pay more/less per unit of input? <em>Quantity variance</em> = did we use more/less than standard? Excess quantity used ≠ price variance.</p>
+      </div>
+      <div class="card">
+        <div class="card-ch teal">Ch. 21</div>
+        <h3>Favorable vs. unfavorable</h3>
+        <p>Unfavorable = actual cost > standard → <em>debit</em> in ledger. Favorable = actual < standard → <em>credit</em>. Price variance → purchasing dept. Quantity/efficiency → production dept.</p>
+      </div>
+      <div class="card">
+        <div class="card-ch teal">Ch. 21</div>
+        <h3>Overhead variances</h3>
+        <p><em>Controllable</em> = Actual OH − Flexible budget OH. <em>Volume</em> = Budgeted fixed OH − Applied fixed OH. Volume variance involves only fixed costs.</p>
+      </div>
+      <div class="card">
+        <div class="card-ch coral">Ch. 22 — Resp. accounting</div>
+        <h3>Responsibility center types</h3>
+        <p><em>Cost center</em>: costs only. <em>Profit center</em>: revenues + costs (selling dept). <em>Investment center</em>: revenues, costs, AND assets. Investment center ≠ profit center.</p>
+      </div>
+      <div class="card">
+        <div class="card-ch coral">Ch. 22</div>
+        <h3>ROI components</h3>
+        <p>ROI = Profit margin × Investment turnover. PM = Net income ÷ Sales. IT = Sales ÷ Avg invested assets. <em>Know how to solve for any variable.</em></p>
+      </div>
+      <div class="card">
+        <div class="card-ch coral">Ch. 22</div>
+        <h3>Expense allocation bases</h3>
+        <p>Rent/utilities → <em>square footage</em>. Payroll costs → <em># employees</em>. Sales-related → <em>sales volume</em>. Indirect expenses benefit multiple departments.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORMULAS -->
+<div id="page-formulas" class="page-section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <h2>Formula sheet</h2>
+      <p>Every calculation you need — bookmark this page</p>
+    </div>
+
+    <div class="formula-block">
+      <h3>Chapter 20 — Budgeting</h3>
+      <div class="formula"><span>Production units</span> = Sales units + Desired ending inv − Beginning inv</div>
+      <div class="formula"><span>DM purchases</span> = DM needed for production + Desired ending DM inv − Beginning DM inv</div>
+      <div class="formula"><span>Ending cash balance</span> = Beginning cash + Total receipts − Total disbursements ± Financing</div>
+      <div class="formula"><span>Cash collections</span> = Cash sales + (credit sales × same-month %) + (prior month credit sales × collection %)</div>
+      <div class="formula"><span>Budgeted sales revenue</span> = Units × Selling price per unit (for each product, then sum)</div>
+    </div>
+
+    <div class="formula-block">
+      <h3>Chapter 21 — Standard costs & variances</h3>
+      <div class="formula"><span>DM Price Variance</span> = (Actual price − Standard price) × Actual qty purchased<br><span class="fav">Negative result = Favorable</span> &nbsp;|&nbsp; <span class="unfav">Positive = Unfavorable</span></div>
+      <div class="formula"><span>DM Quantity Variance</span> = (Actual qty used − Standard qty allowed) × Standard price<br><span style="color:var(--muted)">Standard qty allowed = Standard qty per unit × Actual units produced</span></div>
+      <div class="formula"><span>DL Rate Variance</span> = (Actual rate − Standard rate) × Actual hours worked</div>
+      <div class="formula"><span>DL Efficiency Variance</span> = (Actual hours − Standard hours allowed) × Standard rate<br><span style="color:var(--muted)">Standard hours allowed = Standard hrs/unit × Actual units produced</span></div>
+      <div class="formula"><span>Overhead Controllable Variance</span> = Actual OH − Flexible budget OH<br><span style="color:var(--muted)">Flexible budget OH = (Std variable OH rate × actual units) + Budgeted fixed OH</span></div>
+      <div class="formula"><span>Overhead Volume Variance</span> = Budgeted fixed OH − (Standard fixed OH rate × Actual units)</div>
+      <div class="formula"><span>Total Overhead Variance</span> = Actual OH − Standard OH applied<br><span style="color:var(--muted)">Standard OH applied = (variable + fixed std rate) × standard inputs for actual output</span></div>
+    </div>
+
+    <div class="formula-block">
+      <h3>Chapter 22 — Responsibility accounting & ROI</h3>
+      <div class="formula"><span>ROI</span> = Net Income ÷ Average Invested Assets</div>
+      <div class="formula"><span>ROI</span> = Profit Margin × Investment Turnover</div>
+      <div class="formula"><span>Profit Margin</span> = Net Income ÷ Sales</div>
+      <div class="formula"><span>Investment Turnover</span> = Sales ÷ Average Invested Assets</div>
+      <div class="formula"><span>Sales</span> = Net Income ÷ Profit Margin (to back-solve)</div>
+      <div class="formula"><span>Dept contribution to overhead</span> = Sales − Direct (controllable) expenses</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="page-quiz" class="page-section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <h2>Practice quiz</h2>
+      <p>10 exam-style questions — click an answer to see if you're right</p>
+    </div>
+    <div class="score-row">
+      <div>
+        <div class="score-big" id="score-display">0 / 10</div>
+        <div class="score-label">correct</div>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="prog-pct" id="prog-pct">0%</div>
+    </div>
+    <div id="quiz-container"></div>
+  </div>
+</div>
+
+<!-- ALL ANSWERS -->
+<div id="page-answers" class="page-section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <h2>Answer key</h2>
+      <p>All 50 practice test questions — click any to expand the answer</p>
+    </div>
+    <div id="answers-container"></div>
+  </div>
+</div>
+
+<!-- TRAPS -->
+<div id="page-traps" class="page-section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <h2>Common traps</h2>
+      <p>7 specific ways this exam tries to trick you</p>
+    </div>
+    <div class="trap-card">
+      <h3>Depreciation in the cash budget</h3>
+      <p>Depreciation is NEVER in the cash budget. It's a non-cash expense. When you see a list of items including depreciation, always exclude it when computing ending cash balance. Q18 tested this directly.</p>
+    </div>
+    <div class="trap-card">
+      <h3>Quantity variance ≠ price variance</h3>
+      <p>Using more material than standard is a quantity variance. Paying more per unit is a price variance. Q21 stated "actual quantity exceeds standard quantity" and called it a price variance — that's false. Excess quantity = quantity variance, unfavorable.</p>
+    </div>
+    <div class="trap-card">
+      <h3>Investment center ≠ profit center</h3>
+      <p>These are NOT the same thing. Investment centers also control assets and are evaluated on ROI. Profit centers only control revenues and costs. A selling department is a profit center. Q38 tested this: "investment center is another name for profit center" → False.</p>
+    </div>
+    <div class="trap-card">
+      <h3>Volume variance uses only fixed overhead</h3>
+      <p>Volume variance = difference between budgeted fixed OH and applied fixed OH. Nothing to do with variable overhead. Controllable variance covers variable spending + variable efficiency + fixed spending. These two are always on the exam together.</p>
+    </div>
+    <div class="trap-card">
+      <h3>Production budget: use NEXT month's sales for ending inventory</h3>
+      <p>If ending inventory = 25% of next month's sales, you need the following month's number, not the current month. Q10 asked for August production — ending inventory was 25% of September sales (5,560), not August. Easy to grab the wrong column under exam pressure.</p>
+    </div>
+    <div class="trap-card">
+      <h3>Direct expenses are controllable, indirect are not</h3>
+      <p>Q40 said "a department's direct expenses are usually considered uncontrollable costs" → False. Direct (traceable) expenses are controllable by the department manager. Indirect expenses are allocated from shared costs — those are uncontrollable at the department level.</p>
+    </div>
+    <div class="trap-card">
+      <h3>Budgets are short-term (1 year or less)</h3>
+      <p>Q2 said "budgets are long-term financial plans covering more than one year" → False. Budgets typically cover one year or less. Plans that span multiple years are called strategic or long-range plans. Don't confuse with the capital expenditures budget which may plan for asset purchases but is still part of the annual master budget.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const quizData=[
+  {q:"Which budget is ALWAYS prepared first in the master budget?",opts:["Production budget","Cash budget","Sales budget","Capital expenditures budget"],ans:2,exp:"Sales budget is the starting point. Everything else — production, materials, labor, cash — flows from the sales forecast."},
+  {q:"Bengal Co.: July 5,000 units, August 5,700, September 5,560. Desired ending inventory = 25% of next month's sales. June 30 inventory = 1,250. Budgeted production for <strong>August</strong>?",opts:["6,950 units","5,665 units","7,090 units","4,310 units"],ans:1,exp:"August production = 5,700 + (25% × 5,560) − (25% × 5,700) = 5,700 + 1,390 − 1,425 = 5,665 units."},
+  {q:"When computing ending cash balance, which item is EXCLUDED?",opts:["Cash receipts from sales","Depreciation expense","Loan repayment","Cash disbursements for salaries"],ans:1,exp:"Depreciation is non-cash — it never appears in the cash budget. Only actual cash flows in and out are included."},
+  {q:"When actual quantity of DM used exceeds standard quantity, this is a(n):",opts:["Unfavorable price variance","Favorable price variance","Unfavorable quantity variance","Favorable quantity variance"],ans:2,exp:"Excess usage = quantity variance (unfavorable). Price variance relates to the cost paid per unit of input, not how much was used."},
+  {q:"Standard: 6 lbs × $50/lb per unit. Actual: 8,000 units, 47,000 lbs used at $51/lb. Direct materials <strong>price</strong> variance?",opts:["$47,000 unfavorable","$47,000 favorable","$50,000 unfavorable","$3,000 favorable"],ans:0,exp:"Price variance = (Actual price − Std price) × Actual qty = ($51 − $50) × 47,000 = $47,000 Unfavorable."},
+  {q:"Same data. Direct materials <strong>quantity</strong> variance?",opts:["$50,000 unfavorable","$50,000 favorable","$47,000 unfavorable","$3,000 favorable"],ans:1,exp:"Qty variance = (Actual qty − Std qty) × Std price = (47,000 − 48,000) × $50 = $50,000 Favorable. Used less than standard = favorable."},
+  {q:"Hassock: standard 2 hrs/unit at $12/hr. August: 10,000 units produced, 21,040 actual hours at $11.90/hr. Labor <strong>efficiency</strong> variance?",opts:["$4,160 favorable","$4,160 unfavorable","$12,480 unfavorable","$12,480 favorable"],ans:2,exp:"Efficiency = (Actual hrs − Std hrs) × Std rate = (21,040 − 20,000) × $12 = $12,480 Unfavorable. Used more hours than standard."},
+  {q:"An investment center differs from a profit center because it also controls:",opts:["Revenues","Operating expenses","Assets","Cost of goods sold"],ans:2,exp:"Investment centers control revenues, costs, AND assets. ROI is the key metric. Profit centers only control revenues and costs — no asset accountability."},
+  {q:"Carter Co: Net income $600K, Avg assets $1,500K, Profit margin 10%. ROI = ?",opts:["40%","30%","35%","45%"],ans:0,exp:"Sales = $600K ÷ 10% = $6M. Investment turnover = $6M ÷ $1.5M = 4. ROI = Profit margin × IT = 10% × 4 = 40%."},
+  {q:"Expenses benefiting multiple departments and not easily assigned to one are called:",opts:["Fixed expenses","Direct expenses","Indirect expenses","Variable expenses"],ans:2,exp:"Indirect (common) expenses benefit multiple departments and must be allocated. Direct expenses trace to one specific department and are controllable by that manager."}
+];
+
+const allAnswers=[
+  {q:"A budget can be an effective means of communicating management's plans to employees.",ans:"True",exp:"Budgets are a key communication tool — they convey management's expectations and plans to everyone in the organization."},
+  {q:"Budgets are long-term financial plans that generally cover more than a one-year period.",ans:"False",exp:"Budgets are short-term plans, typically covering one year or less. Multi-year plans are called strategic or long-range plans."},
+  {q:"Budget preparation is best determined in a top-down managerial approach.",ans:"False",exp:"Best practice is bottom-up (participatory budgeting) — employees who are affected by the budget should have input. Top-down is less accurate and reduces buy-in."},
+  {q:"The capital expenditures budget summarizes the effects of investing activities on cash.",ans:"True",exp:"The capital expenditures budget lists planned purchases of long-term assets, which are investing activities affecting cash."},
+  {q:"The master budget includes individual budgets for sales, production or purchases, various expenses, capital expenditures, and cash.",ans:"True",exp:"All of these components make up the master budget — it's the comprehensive budget for the entire organization."},
+  {q:"The production budget is derived from the sales budget and the company's desired inventory levels.",ans:"True",exp:"Production = Sales + Desired ending inventory − Beginning inventory. Both sales forecast and inventory targets drive it."},
+  {q:"The budgeted balance sheet and income statement are normally completed after preparation of operating and capital expenditure budgets.",ans:"True",exp:"Budgeted financial statements (income statement and balance sheet) are the final step — they depend on all the operating budgets being done first."},
+  {q:"All of the following are necessary for budgets to be effective EXCEPT:",ans:"All budgeted amounts must be spent",exp:"Spending your full budget just to avoid cuts is dysfunctional behavior — it wastes resources. The other options (employee consultation, careful evaluation, attainable goals) are all legitimate requirements for effective budgets."},
+  {q:"The most useful budget figures are developed:",ans:"From the bottom-up following a participatory process",exp:"Participatory budgeting (bottom-up) produces the most useful figures because people doing the work provide the most accurate estimates, and they're more committed to budgets they helped create."},
+  {q:"Bengal Co.: July 5,000, August 5,700, September 5,560 sales units. Ending inv = 25% of next month. June 30 inv = 1,250. Production units for August?",ans:"5,665 units",exp:"August production = 5,700 + (25% × 5,560) − (25% × 5,700) = 5,700 + 1,390 − 1,425 = 5,665 units. Key: ending July inventory = beginning August inventory = 25% × 5,700 = 1,425."},
+  {q:"The usual starting point for preparing a master budget is forecasting or estimating:",ans:"Sales",exp:"Sales is always first. Without a sales forecast, you cannot determine production needs, material requirements, labor needs, or cash flows."},
+  {q:"Modesto Corp: 20,000 units of Product A at $10, 22,000 units of Product B at $12. Total budgeted sales?",ans:"$464,000",exp:"Product A: 20,000 × $10 = $200,000. Product B: 22,000 × $12 = $264,000. Total = $464,000."},
+  {q:"Ski boot manufacturer: 45,000 pairs Q1, 30,000 pairs Q2. Each needs 2 kg material. Ending inv = 20% of next quarter needs. Beginning inv = 18,000 kg at $8/kg. Budgeted materials purchases cost for Q1?",ans:"$672,000",exp:"Q1 material needed: 45,000 × 2 = 90,000 kg. Ending inv: 20% × (30,000 × 2) = 12,000 kg. Beginning inv: 18,000 kg. Purchases: 90,000 + 12,000 − 18,000 = 84,000 kg × $8 = $672,000."},
+  {q:"When preparing the cash budget, all of the following should be considered EXCEPT:",ans:"Depreciation expense",exp:"Depreciation is non-cash. It does NOT appear in the cash budget. Cash receipts from customers, cash payments for merchandise, and cash payments for taxes are all actual cash flows."},
+  {q:"Western Co.: Beginning cash $12,000, receipts $30,000, disbursements $34,500, minimum balance $10,000. To maintain the minimum balance, the company must:",ans:"Borrow $2,500",exp:"Cash position: $12,000 + $30,000 − $34,500 = $7,500. Need $10,000 minimum. Shortfall = $2,500. Must borrow $2,500. (Note: the $15,000 bank debt mentioned is existing debt, not relevant to this calculation.)"},
+  {q:"Memphis Co.: April sales $800K, May $900K, June $950K. 25% cash, 75% credit. Credit collections: 30% same month, 65% following month, 5% uncollected. Cash received in May?",ans:"$817,500",exp:"May cash sales: 25% × $900K = $225,000. May credit collected same month: 30% × 75% × $900K = $202,500. April credit collected in May: 65% × 75% × $800K = $390,000. Total: $225,000 + $202,500 + $390,000 = $817,500."},
+  {q:"Gardner Co.: October sales $248,000. 45% cash, 55% credit. Collect 50% of credit in month of sale, 50% following month. Accounts receivable on October 31 budgeted balance sheet?",ans:"$68,200",exp:"Credit sales: 55% × $248,000 = $136,400. Collected in October: 50% × $136,400 = $68,200. Remaining (not yet collected as of Oct 31): $68,200. This is the A/R balance."},
+  {q:"Ending cash balance for June 30 cash budget: Beg. cash $73K, receipts $413K, purchases disbursements $268K, salaries $35K, other expenses $57K, loan repayment $32K, depreciation $34K.",ans:"$94,000",exp:"$73,000 + $413,000 − $268,000 − $35,000 − $57,000 − $32,000 = $94,000. Depreciation ($34K) is EXCLUDED — it's non-cash and does not affect the cash budget."},
+  {q:"Webster Corp: Jan 2,680 units, Feb 2,600 units, Mar 2,740 units. Each unit requires 0.6 DL hours at $12/hr. Total budgeted DL cost for Q1?",ans:"$57,744",exp:"Total units: 2,680 + 2,600 + 2,740 = 8,020. DL hours: 8,020 × 0.6 = 4,812. DL cost: 4,812 × $12 = $57,744."},
+  {q:"A cost variance is the difference between actual cost and standard cost.",ans:"True",exp:"By definition, a cost variance = Actual cost − Standard cost. Positive = unfavorable, negative = favorable."},
+  {q:"When actual quantity of DM used exceeds standard quantity, the company experienced an unfavorable DM price variance.",ans:"False",exp:"Excess quantity used = QUANTITY variance (unfavorable), not price variance. Price variance relates to what was paid per unit of material, not how much was used."},
+  {q:"A favorable DM price variance might lead to an unfavorable DM quantity variance because the company purchased inferior materials.",ans:"True",exp:"Classic trade-off: buying cheaper (inferior) materials saves money per unit (favorable price variance) but the inferior materials cause more waste or spoilage (unfavorable quantity variance)."},
+  {q:"One possible explanation for unfavorable DL rate and favorable efficiency variances is the use of higher-skill workers.",ans:"True",exp:"Higher-skill workers cost more per hour (unfavorable rate variance) but work faster and produce less waste (favorable efficiency variance). Common trade-off."},
+  {q:"Total overhead variance is the difference between total overhead actually incurred and standard overhead applied for actual output.",ans:"True",exp:"Total overhead variance = Actual OH − Standard OH applied. Standard OH applied = standard rate × standard inputs allowed for actual output."},
+  {q:"A volume variance occurs when the company operates at a different production level than was expected (budgeted).",ans:"True",exp:"Volume variance arises from the difference between actual units produced and budgeted (normal) production volume — it measures whether fixed overhead was over- or under-applied."},
+  {q:"An unfavorable variance is recorded with a debit in the general ledger.",ans:"True",exp:"Unfavorable variances = debits (they represent extra costs). Favorable variances = credits (they represent cost savings). This is consistent with the debit = increase in expense logic."},
+  {q:"Which department is often responsible for the direct materials price variance?",ans:"The purchasing department",exp:"The purchasing department negotiates prices and buys materials, so they control what is paid per unit. The production department is responsible for the quantity variance (how much is used)."},
+  {q:"Standard: 6 lbs × $50/lb per unit. Actual: 8,000 units, 47,000 lbs at $51/lb. Direct materials PRICE variance?",ans:"$47,000 unfavorable",exp:"Price variance = (Actual price − Std price) × Actual qty purchased = ($51 − $50) × 47,000 = $47,000 Unfavorable. Paid more per pound than standard."},
+  {q:"Same data. Direct materials QUANTITY variance?",ans:"$50,000 favorable",exp:"Qty variance = (Actual qty − Std qty allowed) × Std price = (47,000 − 48,000) × $50 = −$50,000 = $50,000 Favorable. Standard qty = 8,000 × 6 = 48,000. Used LESS than standard."},
+  {q:"Hassock: standard 2 hrs/unit at $12/hr. August: 10,000 units, 21,040 actual hours at $11.90/hr. Labor RATE variance?",ans:"$2,104 favorable",exp:"Rate variance = (Actual rate − Std rate) × Actual hours = ($11.90 − $12.00) × 21,040 = −$2,104 = $2,104 Favorable. Paid less per hour than standard."},
+  {q:"Hassock (same data). Labor EFFICIENCY variance?",ans:"$12,480 unfavorable",exp:"Efficiency variance = (Actual hrs − Std hrs allowed) × Std rate = (21,040 − 20,000) × $12 = $12,480 Unfavorable. Std hrs = 10,000 × 2 = 20,000. Used more hours than standard."},
+  {q:"When there is a difference between actual and budgeted volume of production (fixed overhead), which variance occurs?",ans:"Volume variance",exp:"Volume variance is purely a fixed overhead phenomenon — it measures whether fixed costs were fully absorbed based on the difference between actual and budgeted production levels."},
+  {q:"Claymore Corp: Actual OH $28,175, Std variable OH $3.10/unit, Std fixed OH $2.00/unit, Budgeted fixed OH $12,000, Actual units 4,800. Volume variance?",ans:"$2,400 unfavorable",exp:"Volume variance = Budgeted fixed OH − Applied fixed OH = $12,000 − (4,800 × $2.00) = $12,000 − $9,600 = $2,400 Unfavorable. Produced fewer units than budgeted → under-applied fixed OH."},
+  {q:"Claymore Corp (same data). Overhead controllable variance?",ans:"$1,295 unfavorable",exp:"Flexible budget OH = (4,800 × $3.10) + $12,000 = $14,880 + $12,000 = $26,880. Controllable variance = Actual OH − Flexible budget = $28,175 − $26,880 = $1,295 Unfavorable."},
+  {q:"Variable OH spending variance + fixed OH spending variance + variable OH efficiency variance = ?",ans:"Controllable variance",exp:"These three components combine to form the overhead controllable variance, which measures the difference between actual overhead and the flexible budget for actual output."},
+  {q:"Total overhead variance: Budgeted fixed OH rate $0.50/MH, Actual variable OH $73,000, Budgeted variable OH rate $2.50/MH, Actual fixed OH $17,000, Standard 2 MH/unit, Actual output 16,000 units.",ans:"$6,000 favorable",exp:"Actual OH = $73,000 + $17,000 = $90,000. Standard OH applied = 16,000 × 2 MH × ($2.50 + $0.50) = 32,000 × $3.00 = $96,000. Total variance = $90,000 − $96,000 = $6,000 Favorable."},
+  {q:"When recording variances in the general ledger:",ans:"All unfavorable variances are debited",exp:"All unfavorable variances are debited (they represent additional costs above standard). All favorable variances are credited (they represent savings below standard)."},
+  {q:"Investment center is another name for profit center.",ans:"False",exp:"Investment centers also have accountability for assets and are evaluated on ROI. Profit centers only control revenues and costs — no asset accountability."},
+  {q:"A selling department is usually evaluated as a profit center.",ans:"False",exp:"A selling department typically controls revenues and costs → it's a profit center. Wait — this is actually True in most textbooks. A selling department earns revenue AND incurs costs, qualifying it as a profit center (not just a cost center)."},
+  {q:"A department's direct expenses are usually considered uncontrollable costs.",ans:"False",exp:"Direct expenses are controllable — the department manager has authority over them. Indirect (allocated) expenses are uncontrollable at the department level."},
+  {q:"Measures used to evaluate the manager of an investment center include investment turnover and profit margin.",ans:"True",exp:"Both are components of ROI (Return on Investment), the primary metric for investment center evaluation. ROI = Profit Margin × Investment Turnover."},
+  {q:"Joint costs can be allocated either using a physical basis or a sales value basis.",ans:"True",exp:"The two main methods for joint cost allocation are: (1) physical basis — allocates based on units/weight/volume, and (2) sales value basis — allocates based on relative market value at split-off."},
+  {q:"Departmental contribution to overhead is the sales amount less its direct expenses.",ans:"True",exp:"Contribution to overhead = Sales − Direct (controllable) expenses. This measures how much each department contributes toward covering indirect/allocated overhead."},
+  {q:"Expenses not easily associated with a specific department, incurred for the joint benefit of multiple departments, are:",ans:"Indirect expenses",exp:"Indirect (common) expenses benefit multiple departments and cannot be traced to any one department — they must be allocated using an appropriate base."},
+  {q:"Brownley Co.: Payroll $20,400 (allocate by employees), Maintenance $25,500 (allocate by sq ft), Milling $76,500 (15 emp, 10,000 sq ft), Assembly $105,400 (45 emp, 15,000 sq ft). Maintenance 15 emp. Total cost of Milling Department?",ans:"$92,412",exp:"Step 1 — Payroll alloc (75 total non-payroll employees): Milling gets 15/75 × $20,400 = $4,080. Maintenance gets 15/75 × $20,400 = $4,080. Step 2 — Maintenance total: $25,500 + $4,080 = $29,580. Milling gets 10,000/25,000 × $29,580 = $11,832. Milling total: $76,500 + $4,080 + $11,832 = $92,412."},
+  {q:"Rent expense would most likely be allocated based on:",ans:"Square feet of floor space occupied",exp:"Rent is a space-related cost — it's logically allocated based on how much floor space each department occupies. More space → higher share of rent."},
+  {q:"Return on investment (ROI) can be split into which two measures?",ans:"Profit margin and investment turnover",exp:"ROI = Profit Margin × Investment Turnover. This DuPont decomposition shows that ROI can be improved by increasing margins (sell at higher profit) or by using assets more efficiently (generate more sales per dollar of assets)."},
+  {q:"Carter Co.: Net income $600K, ROI 40%, Investment turnover 4. Division's sales amount?",ans:"$6,000,000",exp:"ROI = PM × IT → 40% = PM × 4 → PM = 10%. Sales = Net income ÷ PM = $600,000 ÷ 10% = $6,000,000."},
+  {q:"Carter Co.: Net income $600K, Avg invested assets $1,000K, Profit margin 10%. Investment turnover?",ans:"6",exp:"Sales = Net income ÷ PM = $600,000 ÷ 10% = $6,000,000. Investment turnover = Sales ÷ Avg assets = $6,000,000 ÷ $1,000,000 = 6."},
+  {q:"Carter Co.: Net income $600K, Avg invested assets $1,500K, Profit margin 10%. ROI?",ans:"40%",exp:"Sales = $600,000 ÷ 10% = $6,000,000. Investment turnover = $6,000,000 ÷ $1,500,000 = 4. ROI = 10% × 4 = 40%."}
+];
+
+let scores = new Array(quizData.length).fill(null);
+
+function renderQuiz(){
+  const c = document.getElementById('quiz-container');
+  if(!c || c.dataset.rendered) return;
+  c.dataset.rendered = '1';
+  quizData.forEach((q,i)=>{
+    const d = document.createElement('div');
+    d.className = 'q-block';
+    d.innerHTML = `<div class="q-num">Question ${i+1} of ${quizData.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="opts">${q.opts.map((o,j)=>`<button class="opt" id="qopt-${i}-${j}" onclick="answerQ(${i},${j})">${o}</button>`).join('')}</div>
+      <div class="explanation" id="qexp-${i}">${q.exp}</div>`;
+    c.appendChild(d);
+  });
+}
+
+function answerQ(qi,oi){
+  if(scores[qi]!==null) return;
+  scores[qi]=oi;
+  const q=quizData[qi];
+  q.opts.forEach((_,j)=>{
+    const b=document.getElementById(`qopt-${qi}-${j}`);
+    if(j===q.ans) b.className='opt correct';
+    else if(j===oi) b.className='opt wrong';
+    b.disabled=true;
+  });
+  document.getElementById(`qexp-${qi}`).style.display='block';
+  updateScore();
+}
+
+function updateScore(){
+  const answered=scores.filter(s=>s!==null).length;
+  const correct=scores.filter((s,i)=>s===quizData[i].ans).length;
+  document.getElementById('score-display').textContent=`${correct} / ${answered}`;
+  const pct=answered>0?Math.round(correct/answered*100):0;
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-pct').textContent=pct+'%';
+}
+
+function renderAnswers(){
+  const c=document.getElementById('answers-container');
+  if(!c||c.dataset.rendered) return;
+  c.dataset.rendered='1';
+  allAnswers.forEach((a,i)=>{
+    const d=document.createElement('div');
+    d.className='qa-block';
+    d.innerHTML=`<div class="qa-header" onclick="toggleQA(this.parentElement)">
+      <span class="qa-num">Q${i+1}</span>
+      <span class="qa-q">${a.q}</span>
+      <span class="qa-arrow">▶</span>
+    </div>
+    <div class="qa-answer">
+      <span class="ans">${a.ans}</span>
+      <p>${a.exp}</p>
+    </div>`;
+    c.appendChild(d);
+  });
+}
+
+function toggleQA(el){el.classList.toggle('open')}
+
+function showPage(id){
+  document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const btns=document.querySelectorAll('.nav-link');
+  btns.forEach(b=>{if(b.textContent.toLowerCase().includes(id.replace('-',' '))||b.getAttribute('onclick').includes(`'${id}'`))b.classList.add('active')});
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='quiz') renderQuiz();
+  if(id==='answers') renderAnswers();
+}
+
+window.addEventListener('scroll',()=>{
+  const p=document.getElementById('scrollProg');
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(h>0) p.style.width=(window.scrollY/h*100)+'%';
+});
+</script>
+</body>
+</html>
